@@ -213,7 +213,124 @@ INSERT INTO public.activities (title, slug, category_id, location, duration, des
 ('CDMX: Museo del Tequila y Mezcal', 'museo-tequila-mezcal-cdmx', 4, 'CDMX', '2 horas', 'Sumérgete en el mundo del tequila y mezcal en la plaza Garibaldi.', '["Historia de la destilación", "Recorrido por el museo", "Degustación guiada", "Exploración de Plaza Garibaldi"]'::jsonb);
 -- ==========================================
 -- 4. INSERTAR LOS PAQUETES DE CADA EXPERIENCIA
+-- ==========================================}
+-- 1. Cabo San Lucas: Cuatrimotos
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='cabo-cuatrimoto-tequila'), 1, 2600.00, '{"incluye": ["Cuatrimoto Doble", "Guía bilingüe", "Equipo seguridad", "Agua", "Degustación Tequila"], "no_incluye": ["Entrada al parque 25 USD", "Seguro colisión"]}'::jsonb),
+((SELECT id FROM public.activities WHERE slug='cabo-cuatrimoto-tequila'), 3, 4200.00, '{"incluye": ["Cuatrimoto Individual", "Guía bilingüe", "Equipo seguridad", "Agua", "Degustación Tequila"], "no_incluye": ["Entrada al parque 25 USD", "Seguro colisión"]}'::jsonb);
+
+-- 2. Cancún: Nada con manatíes
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='manaties-isla-mujeres'), 2, 3400.00, '{"incluye": ["Encuentro manatíes", "Ferry ida y vuelta", "Almuerzo buffet", "Barra libre no alcohólica", "Taquillas y duchas"], "no_incluye": ["Tasa portuaria 15 USD", "Fotos"]}'::jsonb);
+
+-- 3. CDMX: Lucha Libre
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='lucha-libre-cdmx'), 2, 3400.00, '{"incluye": ["Taller de máscara", "Máscara personalizada", "Entrada Arena México", "Cerveza ilimitada", "Anfitrión"], "no_incluye": ["Alimentos sólidos", "Propinas"]}'::jsonb);
+
+-- 4. CDMX: Tequila y Mezcal
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='museo-tequila-mezcal-cdmx'), 1, 2600.00, '{"tipo": "Grupo Reducido", "incluye": ["Entrada a MUTEM", "Degustación guiada", "Aperitivos", "Embajador cultural"]}'::jsonb),
+((SELECT id FROM public.activities WHERE slug='museo-tequila-mezcal-cdmx'), 3, 3500.00, '{"tipo": "Tour Privado", "incluye": ["Entrada a MUTEM", "Degustación guiada privada", "Aperitivos", "Embajador cultural exclusivo"]}'::jsonb);
+
+-- 5. CDMX: Murales Diego Rivera
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='murales-diego-rivera-cdmx'), 1, 2680.00, '{"incluye": ["Tour guiado especializado", "Entrada a museos"], "no_incluye": ["Comidas", "Propinas"]}'::jsonb);
+
+-- 6. Cuevas de Tolantongo
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='cuevas-tolantongo'), 1, 3600.00, '{"incluye": ["Entrada a las cuevas", "Guía bilingüe", "Transporte interno", "Taquilla"], "no_incluye": ["Almuerzo"]}'::jsonb),
+((SELECT id FROM public.activities WHERE slug='cuevas-tolantongo'), 2, 4500.00, '{"incluye": ["Entrada a las cuevas", "Guía bilingüe", "Transporte interno", "Almuerzo para llevar"]}'::jsonb),
+((SELECT id FROM public.activities WHERE slug='cuevas-tolantongo'), 3, 8900.00, '{"tipo": "Privado", "incluye": ["Entrada a las cuevas", "Guía privado exclusivo", "Acceso completo a zonas"]}'::jsonb);
+
+-- 7. Desde Cabo: Tiburones Ballena en La Paz
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='tiburon-ballena-desde-cabo'), 3, 5100.00, '{"incluye": ["Traslado terrestre", "Desayuno ligero", "Guía certificado", "Equipo snorkel completo", "Traje neopreno", "Almuerzo de tacos"]}'::jsonb);
+
+-- 8. El Rosario: Mariposa Monarca
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='mariposa-monarca-rosario'), 1, 3200.00, '{"incluye": ["Entrada al santuario", "Tickets de peaje", "Paseo a caballo interno"], "no_incluye": ["Transporte principal", "Comidas"]}'::jsonb);
+
+-- 9. Excursión Amealco, Tequisquiapan, Bernal
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='amealco-tequisquiapan-bernal'), 2, 3780.00, '{"incluye": ["Guía turístico", "Taller de muñecos Lele", "Acompañamiento"]}'::jsonb);
+
+-- 10. La Paz/La Ventana: Safari Oceánico
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='safari-oceanico-la-paz'), 3, 5100.00, '{"incluye": ["Navegación en panga", "Biólogo marino", "Equipo snorkel", "Comida y bebidas"], "no_incluye": ["Bebidas alcohólicas", "Buceo"]}'::jsonb);
+
+-- 11. La Paz: Tiburón Ballena (Biólogo)
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='nado-tiburon-ballena-biologo'), 2, 4300.00, '{"incluye": ["Equipo snorkel", "Traje neopreno", "Guía biólogo marino", "Expedición guiada"]}'::jsonb);
+
+-- 12. La Paz: Safari Delfines y Orcas
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='safari-delfines-orcas-paz'), 3, 5300.00, '{"incluye": ["Safari guiado 8 horas", "Guía especializado"], "no_incluye": ["Alimentos", "Bebidas"]}'::jsonb);
+
+-- 13. Los Cabos: Avistamiento Ballenas
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='avistamiento-ballenas-cabos'), 1, 2200.00, '{"incluye": ["Embarcación con sombra", "Guía bilingüe", "Agua", "Chaleco"], "no_incluye": ["Transporte hotel", "Alimentos"]}'::jsonb);
+
+-- 14. Los Cabos: Crucero Pirata
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='crucero-pirata-cabos'), 2, 1900.00, '{"incluye": ["Espectáculo en vivo", "Cena barbacoa", "Bebidas ilimitadas"], "no_incluye": ["Cuota de muelle 5 USD"]}'::jsonb);
+
+-- 15. Los Cabos: Lancha Transparente
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='arco-lancha-transparente'), 2, 3500.00, '{"incluye": ["Paseo lancha cristal", "Visita Arco", "Degustación tequila"], "no_incluye": ["Impuesto muelle 100 MXN", "Comida"]}'::jsonb);
+
+-- 16. Martinica: Delfines y Arrecifes
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='delfines-arrecife-martinica'), 1, 1800.00, '{"incluye": ["Guía bilingüe", "Aperitivos locales", "Refrescos"]}'::jsonb);
+
+-- 17. Morelia: Tour Privado Centro
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='tour-morelia-centro'), 3, 8460.00, '{"tipo": "Privado hasta 4 pax", "incluye": ["Guía local experto", "Ruta flexible", "Historias personalizadas"]}'::jsonb);
+
+-- 18. Nevado Toluca
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='nevado-toluca-cima'), 3, 4500.00, '{"incluye": ["Guía profesional", "Tasas montaña", "Material técnico", "Seguro"]}'::jsonb);
+
+-- 19. Pátzcuaro Janitzio
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='patzcuaro-janitzio-redes'), 2, 3850.00, '{"incluye": ["Guía/conductor", "Paseo en barco", "Entradas"]}'::jsonb);
+
+-- 20. Puerto Vallarta: Tortugas
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='liberacion-tortugas-vallarta'), 1, 1800.00, '{"incluye": ["Guía especializado", "Liberación", "Demostración nidos", "Agua", "Fotos"]}'::jsonb);
+
+-- 21. Querétaro: Peña y Freixenet
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='bernal-freixenet-queretaro'), 2, 1600.00, '{"incluye": ["Visita Bernal", "Entrada Cavas", "Cata de vino", "Guía en vivo"]}'::jsonb);
+
+-- 22. Querétaro: Tranvía
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='tranvia-clasico-queretaro'), 1, 500.00, '{"tipo": "1 Ruta", "incluye": ["Tour guiado", "Tranvía"]}'::jsonb),
+((SELECT id FROM public.activities WHERE slug='tranvia-clasico-queretaro'), 2, 900.00, '{"tipo": "2 Rutas (Completo)", "incluye": ["Tour guiado extendido", "Tranvía"]}'::jsonb);
+
+-- 23. Riviera Maya: Aqua Nick
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='aqua-nick-riviera-maya'), 2, 5800.00, '{"incluye": ["Entrada total", "Splash Bites (comida y bebida)", "Toallas"]}'::jsonb);
+
+-- 24. Roatán: Santuario
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='santuario-mono-perezoso'), 3, 3500.00, '{"tipo": "Privado", "incluye": ["Guía", "Entradas santuarios", "Club de playa con WiFi"]}'::jsonb);
+
+-- 25. Sayulita: Caballo
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='paseo-caballo-sayulita'), 1, 2200.00, '{"tipo": "Corto (1 hora)", "incluye": ["Entrada rancho", "Agua", "Equipo", "Piscina"]}'::jsonb),
+((SELECT id FROM public.activities WHERE slug='paseo-caballo-sayulita'), 2, 2150.00, '{"tipo": "Atardecer (2 horas)", "incluye": ["Paseo guiado", "Agua", "Equipo", "Piscina"]}'::jsonb),
+((SELECT id FROM public.activities WHERE slug='paseo-caballo-sayulita'), 3, 2900.00, '{"tipo": "Largo (2 horas)", "incluye": ["Paseo guiado largo", "Agua", "Equipo", "Piscina"]}'::jsonb);
+
+-- 26. Valladolid: Abejas Mayas
+INSERT INTO public.activity_packages (activity_id, level_id, price, features) VALUES
+((SELECT id FROM public.activities WHERE slug='abejas-mayas-xkopek'), 1, 800.00, '{"incluye": ["Entrada Xkopek", "Guía bilingüe", "Degustación miel", "Agua fresca"]}'::jsonb);
+
+
 -- ==========================================
+-- 4. INSERTAR DETALLES DE LOS PAQUETES
+-- ==========================================
+
+
 -- 1. CABO SAN LUCAS: CUATRIMOTOS
 UPDATE public.activities SET 
   images = '["https://media.tacdn.com/media/attractions-splice-spp-674x446/12/6d/be/63.jpg"]'::jsonb,
