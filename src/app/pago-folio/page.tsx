@@ -97,7 +97,7 @@ export default function PagoFolioPage() {
                 disabled={!isFormValid}
                 className="w-full h-14 bg-orange-600 hover:bg-orange-700 text-white font-bold tracking-widest uppercase rounded-full transition-all shadow-lg shadow-orange-600/20 mt-4"
               >
-                Proceder al Pago <ArrowRight className="w-5 h-5 ml-2" />
+                Agregar al carrito <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </form>
           </div>

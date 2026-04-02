@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/CartContext";
 import { CheckCircle, Loader2, User, FileText, Lock, CreditCard } from "lucide-react";
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const manualFolio = searchParams.get("folio");
@@ -223,6 +223,22 @@ export default function CheckoutPage() {
           </form>
         </div>
       </main>
+      <Footer />
+    </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <div className="min-h-screen flex flex-col bg-stone-50/50">
+      <Header />
+      <Suspense fallback={
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="animate-spin w-10 h-10 text-orange-600" />
+        </div>
+      }>
+        <CheckoutContent />
+      </Suspense>
       <Footer />
     </div>
   );
