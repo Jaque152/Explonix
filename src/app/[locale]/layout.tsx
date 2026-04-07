@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
-import "@/globals.css";
+
+import "../globals.css";
 import { ClientBody } from "@/app/ClientBody";
 import { ReactNode } from "react";
+import type { Metadata } from "next";
 
 type Props = {
   children: ReactNode;

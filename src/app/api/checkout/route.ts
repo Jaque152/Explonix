@@ -278,7 +278,7 @@ export async function POST(req: Request) {
         <hr/>
         <h3>Detalle del Pedido:</h3>
         <ul>
-          ${!manualFolioData ? cart.items.map((item: any) => `
+          ${!manualFolioData ? cart.items.map((item: CartItem) => `
             <li>${item.experience.title} (x${item.people}) - ${formatPrice(item.totalPrice)}</li>
           `).join('') : `<li>Pago Manual de Folio: ${manualFolioData.folio}</li>`}
         </ul>
