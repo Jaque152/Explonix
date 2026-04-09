@@ -6,34 +6,23 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { type, customerName, email, destination, message, locale, budget, startDate, endDate, travelers } = body; 
+    const { type, customerName, email, phone, message } = body; 
 
-    if (type !== 'QUOTE') {
+    if (type !== 'CONTACT') {
       return NextResponse.json({ error: "Tipo de correo no soportado" }, { status: 400 });
     }
 
     const primaryColor = '#c2410c'; 
     
-    const isEnglish = locale === 'en';
-    const subjectClient = isEnglish
-      ? `[Request Received] Thank you for your message - Zenith México`
-      : `[Solicitud Recibida] Gracias por tu mensaje - Zenith México`;
-
-    const greeting = isEnglish ? `Hello ${customerName}!` : `¡Hola ${customerName}!`;
-    const bodyText = isEnglish
-      ? `We received your request to travel to <strong>${destination}</strong>. An expert advisor will contact you in less than 24 hours.`
-      : `Recibimos tu solicitud para viajar a <strong>${destination}</strong>. Un asesor experto se pondrá en contacto contigo en menos de 24 horas.`;
-    const detailsLabel = isEnglish ? `Trip Details:` : `Detalles del Viaje:`;
-    const datesLabel = isEnglish ? `Dates:` : `Fechas:`;
-    const travelersLabel = isEnglish ? `Travelers:` : `Viajeros:`;
-    const budgetLabel = isEnglish ? `Budget:` : `Presupuesto:`;
-    const contactLabel = isEnglish ? `Contact:` : `Contacto:`;
-    const messageLabel = isEnglish ? `Your Message:` : `Tu Mensaje:`;
-    const exploreText = isEnglish 
-      ? `In the meantime, you can keep exploring our experiences.`
-      : `Mientras tanto, puedes seguir explorando nuestras experiencias.`;
-    const ctaText = isEnglish ? `See more experiences` : `Ver más experiencias`;
-    const ctaLink = isEnglish ? `https://zenithmex.com/en/#experiencias` : `https://zenithmex.com/es/#experiencias`;
+    const subjectClient = [Solicitud Recibida] Gracias por tu mensaje - Zenith México;
+    const greeting = ¡Hola ${customerName}!;
+    const bodyText = Recibimos tu mensaje exitosamente. Un asesor experto de nuestro equipo se pondrá en contacto contigo en breve para ayudarte con tu solicitud.;
+    const detailsLabel = Detalles de tu solicitud:;
+    const contactLabel = Contacto:;
+    const messageLabel = Tu Mensaje:;
+    const exploreText = Mientras tanto, te invitamos a seguir explorando nuestras aventuras.;
+    const ctaText = Ver experiencias;
+    const ctaLink = https://zenithmex.com/es/#experiencias;
 
     const htmlClient = `
       <div style="font-family: sans-serif; color: #333; max-width: 600px; margin: auto;">
@@ -46,15 +35,12 @@ export async function POST(req: Request) {
                       
           <div style="background: #fafaf9; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid ${primaryColor};">
             <p style="margin: 0 0 15px; color: ${primaryColor}; font-weight: bold; font-size: 14px; text-transform: uppercase;">${detailsLabel}</p>
-            <p style="margin: 5px 0; font-size: 14px; color: #444;"><strong>${datesLabel}</strong> ${startDate} - ${endDate}</p>
-            <p style="margin: 5px 0; font-size: 14px; color: #444;"><strong>${travelersLabel}</strong> ${travelers}</p>
-            <p style="margin: 5px 0; font-size: 14px; color: #444;"><strong>${budgetLabel}</strong> ${budget}</p>
-            <p style="margin: 5px 0; font-size: 14px; color: #444;"><strong>${contactLabel}</strong> ${email}</p>
+            <p style="margin: 5px 0; font-size: 14px; color: #444;"><strong>${contactLabel}</strong> ${email} / ${phone}</p>
           </div>
 
           <div style="margin: 25px 0; padding: 15px; border: 1px solid #eee; border-radius: 8px;">
             <p style="margin: 0; font-size: 12px; font-weight: bold; text-transform: uppercase; color: #78716c;">${messageLabel}</p>
-            <p style="margin: 10px 0 0; font-size: 14px; font-style: italic; color: #444;">${message}</p>
+            <p style="margin: 10px 0 0; font-size: 14px; font-style: italic; color: #444;">${message || 'Sin mensaje adicional.'}</p>
           </div>
           
           <p style="color: #666; margin-bottom: 25px;">${exploreText}</p>
@@ -63,34 +49,30 @@ export async function POST(req: Request) {
       </div>
     `;
 
+    // 1. Enviar correo al cliente confirmando recepción
     const { data, error } = await resend.emails.send({
       from: 'Zenith México <cotizaciones@zenithmex.com>',
       to: [email], 
-      //bcc: ['contacto@zenithmex.com'], 
       subject: subjectClient,
       html: htmlClient,
     });
 
-
-    // --- NOTIFICACIÓN INTERNA PARA ZENITH ---
-    const subjectInternal = `[NUEVA COTIZACIÓN] - ${destination} - ${customerName}`;
+    // 2. Notificación interna para Zenith
+    const subjectInternal = [NUEVO CONTACTO] - ${customerName};
 
     const htmlInternal = `
       <div style="font-family: sans-serif; color: #333;">
-        <h2 style="color: #c2410c;">Nueva Solicitud de Viaje</h2>
-        <p>Un cliente ha solicitado un itinerario personalizado.</p>
+        <h2 style="color: #c2410c;">Nueva Solicitud de Contacto Web</h2>
+        <p>Un usuario ha llenado el formulario de contacto en la página principal.</p>
         <hr/>
         <p><strong>Cliente:</strong> ${customerName}</p>
-        <p><strong>Destino:</strong> ${destination}</p>
-        <p><strong>Fechas:</strong> ${startDate} a ${endDate}</p>
-        <p><strong>Viajeros:</strong> ${travelers}</p>
-        <p><strong>Presupuesto:</strong> ${budget}</p>
         <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Teléfono:</strong> ${phone}</p>
         <hr/>
         <p><strong>Mensaje del cliente:</strong></p>
-        <p style="background: #f4f4f4; padding: 15px; border-radius: 5px;">${message}</p>
+        <p style="background: #f4f4f4; padding: 15px; border-radius: 5px;">${message || 'Sin mensaje.'}</p>
         <hr/>
-        <p><em>Tip: Responde a este cliente antes de 24 horas para aumentar la probabilidad de cierre.</em></p>
+        <p><em>Tip: Responde a este cliente antes de 24 horas para brindar un mejor servicio.</em></p>
       </div>
     `;
 

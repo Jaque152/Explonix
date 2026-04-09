@@ -4,6 +4,15 @@ export interface Category {
   slug: string;
 }
 
+export interface ContactMessage {
+  id: number;
+  full_name: string;
+  phone: string;
+  email: string;
+  message: string;
+  created_at: string;
+}
+
 export interface Experience {
   id: number;
   title: string;
