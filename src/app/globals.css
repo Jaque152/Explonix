@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+/* globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300..900;1,300..900&family=Syne:wght@400..800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,55 +7,55 @@
 
 @layer base {
   :root {
-    --background: 35 30% 97%;
-    --foreground: 25 25% 15%;
-    --card: 35 25% 95%;
-    --card-foreground: 25 25% 15%;
-    --popover: 35 30% 97%;
-    --popover-foreground: 25 25% 15%;
-    --primary: 24 70% 50%;
-    --primary-foreground: 35 30% 97%;
-    --secondary: 35 40% 88%;
-    --secondary-foreground: 25 25% 15%;
-    --muted: 35 20% 90%;
-    --muted-foreground: 25 15% 45%;
-    --accent: 38 75% 55%;
-    --accent-foreground: 25 25% 15%;
+    /* Explonix Palette: Digital Ocean (Icy White, Slate, Electric Indigo) */
+    --background: 210 40% 98%; /* Icy White / Gris muy claro azulado */
+    --foreground: 222 47% 11%; /* Deep Slate / Azul marino casi negro */
+    --card: 0 0% 100%; /* Blanco puro */
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    
+    /* Electric Indigo (#6366F1) - Color de acción principal */
+    --primary: 239 84% 67%; 
+    --primary-foreground: 0 0% 100%;
+    
+    /* Vivid Cyan (#06B6D4) - Para acentos secundarios */
+    --secondary: 189 94% 43%; 
+    --secondary-foreground: 222 47% 11%;
+    
+    --muted: 214 32% 91%;
+    --muted-foreground: 215 16% 47%; /* Gris azulado para textos secundarios */
+    
+    --accent: 189 94% 43%;
+    --accent-foreground: 222 47% 11%;
+    
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 35 25% 85%;
-    --input: 35 25% 85%;
-    --ring: 24 70% 50%;
-    --radius: 0.75rem;
-
-    /* Custom colors */
-    --terracotta: 16 65% 55%;
-    --sand: 38 35% 85%;
-    --ochre: 38 75% 55%;
-    --cream: 40 40% 96%;
-    --earth: 25 35% 30%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 239 84% 67%;
+    
+    /* Radio más estructurado (estilo tech/SaaS) */
+    --radius: 1rem; 
   }
 
   .dark {
-    --background: 25 25% 10%;
-    --foreground: 35 30% 95%;
-    --card: 25 20% 15%;
-    --card-foreground: 35 30% 95%;
-    --popover: 25 25% 10%;
-    --popover-foreground: 35 30% 95%;
-    --primary: 24 70% 55%;
-    --primary-foreground: 25 25% 10%;
-    --secondary: 25 20% 20%;
-    --secondary-foreground: 35 30% 95%;
-    --muted: 25 15% 25%;
-    --muted-foreground: 35 20% 65%;
-    --accent: 38 75% 55%;
-    --accent-foreground: 25 25% 10%;
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 25 15% 25%;
-    --input: 25 15% 25%;
-    --ring: 24 70% 55%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 15%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 15%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 239 84% 75%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 189 94% 50%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 222 47% 20%;
+    --muted-foreground: 215 20% 65%;
+    --border: 222 47% 20%;
+    --input: 222 47% 20%;
+    --ring: 239 84% 75%;
   }
 }
 
@@ -64,70 +65,40 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Archivo', sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Syne', sans-serif;
+    @apply tracking-tight;
   }
 }
 
 @layer utilities {
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--terracotta))] to-[hsl(var(--ochre))];
+  /* Glassmorphism ajustado a tonos fríos */
+  .glass-panel {
+    @apply bg-white/60 backdrop-blur-xl border border-white/60 shadow-[0_4px_24px_rgb(0,0,0,0.02)];
   }
-  .bg-grain {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: 0.03;
+  .dark .glass-panel {
+    @apply bg-slate-900/50 border-slate-700/50 shadow-[0_4px_24px_rgb(0,0,0,0.2)];
   }
+  
+  /* Nuevo degradado para textos destacados (Índigo a Cian) */
+  .text-gradient-cool {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
+  }
+
   .animate-fade-up {
-    animation: fadeUp 0.6s ease-out forwards;
-  }
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;  /* Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 }
 
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(var(--sand));
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--terracotta));
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--ochre));
-}
+/* Scrollbar moderno en tonos fríos */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--primary)); }

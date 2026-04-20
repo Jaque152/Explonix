@@ -1,4 +1,3 @@
-
 import "../globals.css";
 import { ClientBody } from "@/app/ClientBody";
 import { ReactNode } from "react";
@@ -10,8 +9,8 @@ type Props = {
 };
 
 export const metadata: Metadata = {
-  title: "Zenith Mexico - Experiencias Únicas en México",
-  description: "Diseñamos experiencias personalizadas para que tú solo te preocupes por disfrutar el camino. Descubre los rincones más auténticos de México.",
+  title: "Explonix | Redefiniendo la Exploración y el Viaje",
+  description: "Curamos itinerarios a la medida y experiencias de alto nivel. Descubre los destinos más asombrosos con el respaldo y la exclusividad de Explonix.",
 };
 
 export default async function RootLayout({

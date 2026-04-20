@@ -2,245 +2,97 @@
 
 import { T } from "@/components/T";
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MapPin, Loader2 } from "lucide-react";
+import { Mail, Phone, Loader2, ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 export function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    message: "",
-  });
-
+  const [formData, setFormData] = useState({ name: "", phone: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
-      // 1. Guardar en Supabase
-      const { error: dbError } = await supabase
-        .from("contact_messages")
-        .insert([
-          {
-            full_name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            message: formData.message,
-          },
-        ]);
-
+      const { error: dbError } = await supabase.from("contact_messages").insert([{ full_name: formData.name, email: formData.email, phone: formData.phone, message: formData.message }]);
       if (dbError) throw dbError;
-
-      // 2. Enviar correo vía API
-      const response = await fetch("/api/send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: "CONTACT",
-          customerName: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          message: formData.message,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result?.error || "No se pudo enviar el correo");
-      }
-
-      alert("¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.");
-      setFormData({
-        name: "",
-        phone: "",
-        email: "",
-        message: "",
-      });
+      const response = await fetch("/api/send", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ type: "CONTACT", ...formData, customerName: formData.name }) });
+      if (!response.ok) throw new Error("No se pudo enviar");
+      alert("¡Mensaje enviado con éxito!");
+      setFormData({ name: "", phone: "", email: "", message: "" });
     } catch (error) {
-      console.error("Error al enviar:", error);
-      alert("Hubo un error al enviar tu mensaje. Intenta de nuevo.");
+      alert("Hubo un error al enviar tu mensaje.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="contacto" className="py-24 lg:py-32 bg-[#F9FAFB]">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-sm font-bold text-primary tracking-widest uppercase mb-4">
-            <T>NUEVAS AVENTURAS</T>
-          </h2>
-          <h3 className="text-4xl md:text-5xl font-serif font-black text-[#1C2024] leading-tight">
-            <T>Personalizamos cada detalle de tu viaje</T>
-            <br />
-            <T>para que sea único.</T>
-          </h3>
+    <section id="contacto" className="relative bg-background pt-20">
+      
+      {/* Franja Superior Oscura (Cabecera Tipográfica) */}
+      <div className="bg-slate-900 pt-20 pb-48 px-4 rounded-[2.5rem] mx-4 lg:mx-8 relative overflow-hidden">
+        {/* Elemento gráfico de fondo */}
+        <div className="absolute -top-20 -right-20 w-[600px] h-[600px] border-[1px] border-white/5 rounded-full" />
+        <div className="absolute top-10 -right-10 w-[400px] h-[400px] border-[1px] border-white/5 rounded-full" />
+        
+        <div className="container mx-auto max-w-6xl relative z-10 flex flex-col md:flex-row justify-between items-end gap-8">
+          <div>
+            <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-4">
+              <T>Conecta</T><br/>
+              <span className="text-cyan-400"><T>con nosotros.</T></span>
+            </h2>
+            <p className="text-slate-400 font-medium text-lg max-w-md"><T>Nuestro equipo está listo para personalizar cada detalle de tu viaje.</T></p>
+          </div>
+          
+          <div className="flex flex-col gap-4">
+            <a href="mailto:contacto@explonix.com" className="flex items-center gap-3 text-white hover:text-cyan-400 font-bold transition-colors">
+              <Mail className="w-5 h-5" /> contacto@explonix.com
+            </a>
+            <a href="tel:+525555555555" className="flex items-center gap-3 text-white hover:text-cyan-400 font-bold transition-colors">
+              <Phone className="w-5 h-5" /> +52 55 5555 5555
+            </a>
+          </div>
         </div>
+      </div>
 
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-          <div className="lg:col-span-7 w-full max-w-2xl mx-auto lg:mx-0">
-            <Card className="border-none shadow-none bg-transparent">
-              <CardContent className="p-0">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-[#4A5568]">
-                      <T>Nombre</T> <span className="text-[#E53E3E]">*</span>
-                    </label>
-                    <Input
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      placeholder="Nombre"
-                      required
-                      className="h-14 bg-white border-[#E2E8F0] focus-visible:ring-primary rounded-md px-4 text-foreground placeholder:text-[#A0AEC0] shadow-sm"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-[#4A5568]">
-                      <T>Teléfono</T> <span className="text-[#E53E3E]">*</span>
-                    </label>
-                    <Input
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) =>
-                        setFormData({ ...formData, phone: e.target.value })
-                      }
-                      placeholder="Teléfono"
-                      required
-                      className="h-14 bg-white border-[#E2E8F0] focus-visible:ring-primary rounded-md px-4 text-foreground placeholder:text-[#A0AEC0] shadow-sm"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-[#4A5568]">
-                      <T>Correo Electrónico</T>{" "}
-                      <span className="text-[#E53E3E]">*</span>
-                    </label>
-                    <Input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      placeholder="Correo Electrónico"
-                      required
-                      className="h-14 bg-white border-[#E2E8F0] focus-visible:ring-primary rounded-md px-4 text-foreground placeholder:text-[#A0AEC0] shadow-sm"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-baseline">
-                      <label className="text-sm font-bold text-[#4A5568]">
-                        <T>Mensaje</T>
-                      </label>
-                      <span className="text-xs text-[#A0AEC0] font-medium">
-                        {formData.message.length} / 180
-                      </span>
-                    </div>
-                    <Textarea
-                      value={formData.message}
-                      onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value })
-                      }
-                      placeholder="Mensaje"
-                      rows={5}
-                      maxLength={180}
-                      className="bg-white border-[#E2E8F0] focus-visible:ring-primary rounded-md px-4 py-4 text-foreground placeholder:text-[#A0AEC0] resize-none shadow-sm"
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    disabled={
-                      !formData.name ||
-                      !formData.email ||
-                      !formData.phone ||
-                      isSubmitting
-                    }
-                    className="w-full h-14 bg-[#5CB8D8] hover:bg-[#4ba8c8] text-white font-bold rounded-md shadow-none transition-colors text-base"
-                  >
-                    {isSubmitting ? (
-                      <Loader2 className="animate-spin w-5 h-5 mr-2" />
-                    ) : null}
-                    {isSubmitting ? <T>Enviando...</T> : <T>Enviar</T>}
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="lg:col-span-5 space-y-8 lg:pl-10">
-            <div>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                <T>¿Tienes preguntas? ¿Necesitas ayuda?</T>
-                <br />
-                <T>Nuestro equipo está listo para apoyarte.</T>
-              </p>
-            </div>
-
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
-                  <Mail className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-foreground mb-1">
-                    <T>Correo Electrónico</T>
-                  </h4>
-                  <a
-                    href="mailto:informes@zenithmex.com"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    contacto@zenithmex.com
-                  </a>
-                </div>
+      {/* Formulario Flotante (Se superpone a la franja oscura y al fondo claro) */}
+      <div className="container mx-auto px-4 max-w-4xl relative -mt-32 z-20 pb-24">
+        <div className="bg-white rounded-[2rem] shadow-2xl p-8 md:p-12 border border-slate-100">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-xs font-black uppercase text-slate-400 ml-2"><T>Nombre</T></label>
+                <Input value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} placeholder="Tu nombre" required className="h-16 border-0 border-b-2 border-slate-100 focus-visible:ring-0 focus-visible:border-primary rounded-none px-2 font-bold text-lg bg-transparent" />
               </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
-                  <Phone className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-foreground mb-1">
-                    <T>Teléfono</T>
-                  </h4>
-                  <a
-                    href="tel:+525555555555"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    +52 55 5555 5555
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
-                  <MapPin className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-foreground mb-1">
-                    <T>Ubicación</T>
-                  </h4>
-                  <p className="text-muted-foreground">
-                    Ciudad de México, México
-                  </p>
-                </div>
+              <div className="space-y-2">
+                <label className="text-xs font-black uppercase text-slate-400 ml-2"><T>Teléfono</T></label>
+                <Input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} placeholder="+52" required className="h-16 border-0 border-b-2 border-slate-100 focus-visible:ring-0 focus-visible:border-primary rounded-none px-2 font-bold text-lg bg-transparent" />
               </div>
             </div>
-          </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-black uppercase text-slate-400 ml-2"><T>Correo Electrónico</T></label>
+              <Input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} placeholder="ejemplo@correo.com" required className="h-16 border-0 border-b-2 border-slate-100 focus-visible:ring-0 focus-visible:border-primary rounded-none px-2 font-bold text-lg bg-transparent" />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between ml-2">
+                <label className="text-xs font-black uppercase text-slate-400"><T>Mensaje</T></label>
+                <span className="text-xs font-bold text-slate-300">{formData.message.length}/180</span>
+              </div>
+              <Textarea value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} placeholder="¿A dónde quieres ir?" rows={3} maxLength={180} className="border-0 border-b-2 border-slate-100 focus-visible:ring-0 focus-visible:border-primary rounded-none px-2 font-bold text-lg bg-transparent resize-none" />
+            </div>
+
+            <div className="flex justify-end pt-4">
+              <Button type="submit" disabled={!formData.name || isSubmitting} className="h-16 px-10 rounded-full bg-primary hover:bg-slate-900 text-white font-black text-lg transition-all group">
+                {isSubmitting ? <Loader2 className="animate-spin w-5 h-5 mr-2" /> : <T>Enviar</T>}
+                {!isSubmitting && <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-2 transition-transform" />}
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
     </section>

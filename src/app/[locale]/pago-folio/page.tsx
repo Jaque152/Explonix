@@ -5,12 +5,11 @@ import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CheckCircle } from "lucide-react";
 import { T } from "@/components/T";
 import { useT } from "@/hooks/useT";
 import { useCart } from "@/context/CartContext";
+import { ArrowRight } from "lucide-react";
 
 export default function PagoFolioPage() {
   const router = useRouter();
@@ -24,7 +23,7 @@ export default function PagoFolioPage() {
   const [folio, setFolio] = useState("");
   const [fecha, setFecha] = useState("");
 
-  const btnConfirmar = useT(" Añadir al carrito ");
+  const btnConfirmar = useT("Añadir al carrito");
 
   const handleMontoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/[^0-9.]/g, ''); 
@@ -52,7 +51,7 @@ export default function PagoFolioPage() {
         slug: "aventura-personalizada",
         description: `Pago de folio: ${folio}`,
         location: "Múltiples Destinos",
-        images: ["https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1288&auto=format&fit=crop"],
+        images: ["https://images.unsplash.com/photo-1682687982562-47422046ca96?q=80&w=1200&auto=format&fit=crop"],
         category_id: 0
       },
       levelName: "Personalizado",
@@ -63,7 +62,7 @@ export default function PagoFolioPage() {
     };
 
     addToCart(customExperienceItem);
-    sessionStorage.setItem("zenith_temp_contact", JSON.stringify({ nombre, email, folio }));
+    sessionStorage.setItem("explonix_temp_contact", JSON.stringify({ nombre, email, folio }));
     router.push(`/${locale}/checkout`);
   };
 
@@ -71,143 +70,137 @@ export default function PagoFolioPage() {
   minDate.setDate(minDate.getDate() + 1);
   const minDateStr = minDate.toISOString().split("T")[0];
 
+  // Nuevos estilos Explonix: Minimalismo radical, líneas gruesas inferiores, sin bordes laterales
+  const inputClass = "border-0 border-b-2 border-zinc-200 focus-visible:border-zinc-900 bg-transparent p-0 text-base font-medium text-zinc-900 focus-visible:ring-0 rounded-none shadow-none h-10 transition-colors w-full";
+  const labelClass = "text-xs font-bold uppercase tracking-widest text-zinc-400 block mb-1";
+
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-white">
       <Header />
       
-      <main className="flex-1 pt-24 pb-24 px-4 lg:pt-36">
-        <div className="container mx-auto max-w-6xl">
+      {/* Usamos pt-20 para evadir el header, pero el contenido se expande a las orillas */}
+      <main className="flex-1 flex flex-col lg:flex-row pt-20">
+        
+        {/* COLUMNA IZQUIERDA: Visual Edge-to-Edge */}
+        <div className="w-full lg:w-1/2 relative min-h-[40vh] lg:min-h-[calc(100vh-5rem)] bg-black">
+          <img 
+            src="https://images.unsplash.com/photo-1682687982562-47422046ca96?q=80&w=1200&auto=format&fit=crop" 
+            className="absolute inset-0 w-full h-full object-cover opacity-80" 
+            alt="Explonix Experiencia" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
           
-          <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-16 items-start">
+          <div className="absolute bottom-0 left-0 p-8 lg:p-16 text-white z-10 w-full">
+             <div className="flex items-center gap-3 mb-6">
+                <div className="h-[2px] w-8 bg-white"></div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em]"><T>Servicios Privados</T></span>
+             </div>
+             <h1 className="text-4xl lg:text-6xl font-bold tracking-tighter mb-4 leading-[1.1]">
+               <T>Aventura</T> <br/>
+               <span className="text-white/80 font-light"><T>Personalizada</T></span>
+             </h1>
+             <p className="text-sm lg:text-base text-white/70 max-w-md font-medium leading-relaxed mt-6">
+               <T>Procesamiento seguro para itinerarios a la medida y servicios exclusivos de Explonix. Tu viaje inicia aquí.</T>
+             </p>
+          </div>
+        </div>
+
+        {/* COLUMNA DERECHA: Formulario Vanguardista Centrado */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-16 bg-white">
+          <div className="w-full max-w-lg">
             
-            {/* Columna Izquierda: Imagen y Textos (Fija en escritorio) */}
-            <div className="w-full relative rounded-2xl overflow-hidden shadow-2xl h-[350px] md:h-[450px] lg:h-[700px] lg:sticky lg:top-32 mb-10 lg:mb-0">
-              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1288&auto=format&fit=crop')] bg-cover bg-center"></div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-              
-              <div className="absolute bottom-6 left-6 right-6 lg:bottom-10 lg:left-10 lg:right-10 z-10">
-                <p className="text-primary font-bold mb-3 text-xs md:text-sm uppercase tracking-widest"><T>Servicios Especiales</T></p>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white leading-tight mb-4 uppercase">
-                  <T>Aventura</T> <br/>
-                  <T>Personalizada</T>
-                </h1>
-                <p className="text-white/90 text-sm md:text-base leading-relaxed max-w-sm hidden md:block">
-                  <T>Si alguna de nuestras experiencias no cumple con tus expectativas, organizaremos una experiencia totalmente personalizada.</T>
-                </p>
-              </div>
+            <div className="mb-12">
+              <h2 className="text-3xl font-bold tracking-tight text-zinc-900 mb-3"><T>Reserva tu lugar</T></h2>
+              <p className="text-zinc-500 font-medium text-sm"><T>Ingresa los detalles de tu folio para proceder al pago seguro y confirmar tu itinerario.</T></p>
             </div>
 
-            {/* Columna Derecha: Formulario */}
-            <div className="w-full flex flex-col justify-center lg:pt-4">
+            <form onSubmit={handleConfirmarReserva} className="space-y-10">
               
-              <div className="mb-10">
-                <h2 className="text-2xl font-serif font-bold text-foreground mb-4">
-                  <T>Sujeto a cotización</T>
-                </h2>
-                
-                <p className="text-muted-foreground leading-relaxed mb-8">
-                  <T>Si alguna de nuestras experiencias no cumple con tus expectativas, o si deseas agendar una actividad para un grupo, contáctanos. Organizaremos una experiencia </T>
-                  <strong className="text-foreground"><T>totalmente personalizada</T></strong>
-                  <T>, en la que uno de nuestros agentes se comunicará contigo para recopilar los detalles de tu aventura y asegurarse de que cada aspecto se ajuste a tus necesidades.</T>
-                </p>
+              {/* Monto - Estilo tipográfico grande */}
+              <div className="space-y-1">
+                <label className={labelClass}><T>Monto Acordado (MXN + IVA)</T></label>
+                <div className="flex items-end border-b-2 border-zinc-200 focus-within:border-zinc-900 transition-colors pb-1">
+                  <span className="text-xl font-bold text-zinc-300 mr-2 mb-1">$</span>
+                  <Input 
+                    type="text" 
+                    value={monto}
+                    onChange={handleMontoChange}
+                    placeholder="0.00"
+                    required
+                    className="border-0 bg-transparent p-0 text-3xl font-black text-zinc-900 focus-visible:ring-0 rounded-none shadow-none h-auto placeholder:text-zinc-200 tracking-tighter"
+                  />
+                </div>
               </div>
 
-              <form onSubmit={handleConfirmarReserva} className="space-y-6 bg-card p-6 md:p-8 rounded-2xl border border-border shadow-lg">
-                
-                {/* Costo */}
-                <div className="space-y-3">
-                  <label className="text-sm font-bold text-foreground flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-primary" /> <T>Costo del Servicio MXN + IVA</T>
-                  </label>
-                  <div className="relative flex items-center">
-                    <span className="absolute left-4 text-muted-foreground font-bold">$</span>
-                    <Input 
-                      type="text" 
-                      value={monto}
-                      onChange={handleMontoChange}
-                      placeholder="0.00"
-                      required
-                      className="bg-background border-border focus-visible:ring-primary pl-8 text-foreground h-12 rounded-xl"
-                    />
-                  </div>
-                </div>
-
-                {/* Nombre */}
-                <div className="space-y-3">
-                  <label className="text-sm font-bold text-foreground flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-primary" /> 
-                    <span><T>Nombre</T> <span className="text-destructive">*</span></span>
-                  </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div>
+                  <label className={labelClass}><T>Nombre</T></label>
                   <Input 
                     type="text" 
                     value={nombre}
                     onChange={(e) => setNombre(e.target.value)}
                     required
-                    className="bg-background border-border focus-visible:ring-primary text-foreground h-12 rounded-xl"
+                    placeholder="Nombre completo"
+                    className={inputClass}
                   />
                 </div>
 
-                {/* Email */}
-                <div className="space-y-3">
-                  <label className="text-sm font-bold text-foreground flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-primary" /> 
-                    <span><T>Correo Electrónico</T> <span className="text-destructive">*</span></span>
-                  </label>
+                <div>
+                  <label className={labelClass}><T>Correo</T></label>
                   <Input 
                     type="email" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="bg-background border-border focus-visible:ring-primary text-foreground h-12 rounded-xl"
+                    placeholder="correo@ejemplo.com"
+                    className={inputClass}
                   />
                 </div>
+              </div>
 
-                {/* Folio */}
-                <div className="space-y-3">
-                  <label className="text-sm font-bold text-foreground flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-primary" /> 
-                    <span><T>Número de folio Acordado</T> <span className="text-destructive">*</span></span>
-                  </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div>
+                  <label className={labelClass}><T>Folio</T></label>
                   <Input 
                     type="text" 
                     value={folio}
                     onChange={(e) => setFolio(e.target.value.toUpperCase())}
                     required
-                    className="bg-background border-border focus-visible:ring-primary text-foreground uppercase font-mono h-12 rounded-xl"
+                    placeholder="Ej: EXP-001"
+                    className={`${inputClass} uppercase font-bold tracking-wider`}
                   />
                 </div>
 
-                {/* Fecha */}
-                <div className="space-y-3 pb-4">
-                  <label className="text-sm font-bold text-foreground flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-primary" /> 
-                    <span><T>Selecciona tu fecha de salida:</T></span>
-                  </label>
+                <div>
+                  <label className={labelClass}><T>Fecha</T></label>
                   <Input 
                     type="date" 
                     value={fecha}
                     min={minDateStr}
                     onChange={(e) => setFecha(e.target.value)}
                     required
-                    className="bg-background border-border focus-visible:ring-primary text-foreground h-12 rounded-xl"
+                    className={inputClass}
                   />
                 </div>
+              </div>
 
-                {/* Botón Confirmar */}
-                <Button 
+              <div className="pt-6">
+                <button 
                   type="submit" 
                   disabled={!isFormValid}
-                  className="w-full md:w-auto h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all shadow-lg px-8 text-base"
+                  className="w-full h-14 bg-zinc-900 text-white hover:bg-black transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-3 rounded-none"
                 >
-                  {btnConfirmar}
-                </Button>
-                
-              </form>
+                  <span className="text-xs font-bold uppercase tracking-[0.15em]">
+                    {btnConfirmar}
+                  </span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
               
-            </div>
-
+            </form>
           </div>
         </div>
+
       </main>
       <Footer />
     </div>

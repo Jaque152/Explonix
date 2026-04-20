@@ -70,7 +70,6 @@ export interface CustomQuote {
   phone: string;
   destination: string;
   start_date?: string;
-  end_date?: string;
   pax_qty: number; 
   budget: string;
   special_requests: string;

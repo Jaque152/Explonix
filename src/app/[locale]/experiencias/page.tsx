@@ -1,4 +1,3 @@
-// src/app/[locale]/experiencias/page.tsx
 "use client";
 import { useLocale } from 'next-intl';
 import { useState, useEffect, Suspense } from "react";
@@ -6,12 +5,10 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from '@/lib/supabase';
-import { MapPin, Search, ArrowRight, Loader2 } from "lucide-react";
+import { MapPin, Search, ArrowRight, Loader2, Compass } from "lucide-react";
 import { Experience, SupabaseExperienceResponse } from "@/lib/types";
 import { T } from "@/components/T";
 import { useT } from "@/hooks/useT";
@@ -88,97 +85,118 @@ function ExperienciasContent() {
   };
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center">
-      <Loader2 className="w-10 h-10 animate-spin text-orange-600" />
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <Loader2 className="w-12 h-12 animate-spin text-primary" />
     </div>
   );
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Header />
       <main className="flex-1 pt-20">
-        <section className="bg-stone-50 py-16">
-          <div className="container mx-auto px-4 lg:px-8">
-            <Badge variant="outline" className="mb-4 rounded-full px-4 py-1 border-primary/30 text-primary">
-              <T>Catálogo de Experiencias</T>
-            </Badge>
-            <h1 className="text-4xl md:text-5xl font-serif font-semibold mb-6 text-stone-900">
-              <T>Descubre</T> <span className="text-orange-600"><T>aventuras únicas</T></span>
+        
+        {/* Cabecera Digital Ocean */}
+        <section className="bg-slate-900 pt-24 pb-32 relative overflow-hidden rounded-b-[3rem] mx-2 lg:mx-4 mt-4">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/20 blur-[150px] rounded-full pointer-events-none" />
+          <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full mb-6">
+              <Compass className="w-4 h-4 text-cyan-400" />
+              <span className="text-xs font-bold uppercase tracking-widest text-white"><T>Catálogo Explonix</T></span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white mb-6">
+              <T>Descubre</T> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-primary"><T>aventuras únicas</T></span>
             </h1>
           </div>
         </section>
 
-        <section className="border-b border-border bg-background sticky top-20 z-40">
-          <div className="container mx-auto px-4 lg:px-8 py-4">
-            <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-              <div className="flex flex-wrap gap-2">
+        {/* Barra de Filtros Flotante (Glassmorphism) */}
+        <section className="sticky top-28 z-40 -mt-12 mb-16 px-4">
+          <div className="container mx-auto max-w-6xl">
+            <div className="glass-panel p-4 rounded-[2rem] shadow-xl border border-slate-100 flex flex-col lg:flex-row gap-6 items-center justify-between">
+              
+              <div className="flex flex-wrap justify-center lg:justify-start gap-2 w-full lg:w-auto">
                 <Button
                   variant={!selectedCategory ? "default" : "outline"}
-                  size="sm"
                   onClick={() => setSelectedCategory(null)}
-                  className="rounded-full"
-                ><T>Todas</T></Button>
+                  className={`rounded-full h-12 px-6 font-bold transition-all ${!selectedCategory ? 'bg-slate-900 text-white hover:bg-primary' : 'border-slate-200 text-slate-500 hover:text-slate-900 hover:border-slate-900'}`}
+                >
+                  <T>Todas</T>
+                </Button>
                 {categories.map((cat) => (
                   <Button
                     key={cat.id}
                     variant={selectedCategory === cat.slug ? "default" : "outline"}
-                    size="sm"
                     onClick={() => setSelectedCategory(cat.slug)}
-                    className="rounded-full"
-                  ><T>{cat.name}</T></Button>
+                    className={`rounded-full h-12 px-6 font-bold transition-all ${selectedCategory === cat.slug ? 'bg-slate-900 text-white hover:bg-primary' : 'border-slate-200 text-slate-500 hover:text-slate-900 hover:border-slate-900'}`}
+                  >
+                    <T>{cat.name}</T>
+                  </Button>
                 ))}
               </div>
-              <div className="relative w-full lg:w-72">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+
+              <div className="relative w-full lg:w-80">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <Input
                   placeholder={phSearch}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 rounded-full"
+                  className="pl-12 h-12 rounded-full bg-slate-50 border-none focus-visible:ring-2 focus-visible:ring-primary font-medium text-slate-700"
                 />
               </div>
             </div>
           </div>
         </section>
 
-        <section className="py-12">
+        {/* Grid de Experiencias */}
+        <section className="pb-24">
           <div className="container mx-auto px-4 lg:px-8">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredExperiences.map((exp) => {
-                const thumbImage = exp.images?.length > 0 ? exp.images[0] : '/placeholder.jpg';
+            {filteredExperiences.length === 0 ? (
+              <div className="text-center py-20">
+                <Compass className="w-16 h-16 text-slate-200 mx-auto mb-4" />
+                <h3 className="text-2xl font-black text-slate-900 mb-2"><T>No encontramos experiencias</T></h3>
+                <p className="text-slate-500 font-medium"><T>Intenta con otros filtros o términos de búsqueda.</T></p>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                {filteredExperiences.map((exp) => {
+                  const thumbImage = exp.images?.length > 0 ? exp.images[0] : '/placeholder.jpg';
 
-                return (
-                  <Link key={exp.id} href={`/${locale}/experiencias/${exp.id}`} className="group">
-                    <Card className="h-full overflow-hidden hover:shadow-xl transition-all border-none shadow-sm rounded-2xl">
-                      <div className="aspect-[4/3] relative overflow-hidden">
-                        <img src={thumbImage} alt={exp.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                        <Badge className="absolute top-4 left-4 bg-background/90 text-foreground border-none">
-                          <T>{exp.categories?.name || "Sin Categoría"}</T>
-                        </Badge>
-                      </div>
-                      <CardContent className="p-5">
-                        <h3 className="text-lg font-serif font-semibold mb-2"><T>{exp.title}</T></h3>
-                        <div className="flex items-center gap-1 text-sm text-muted-foreground mb-4">
-                          <MapPin className="w-4 h-4" /> <T>{exp.location}</T>
-                        </div>
-                        <div className="flex items-center justify-between pt-4 border-t">
-                          <div>
-                            <p className="text-xs text-muted-foreground uppercase font-bold"><T>Desde</T></p>
-                            <p className="text-lg font-bold text-orange-600">
-                              {formatPrice(exp.displayPrice)}
-                            </p>
-                            <span className="text-xs font-normal text-stone-500"><T>IVA incluido</T></span>
+                  return (
+                    <Link key={exp.id} href={`/${locale}/experiencias/${exp.id}`} className="group block h-full">
+                      <div className="bg-white rounded-[2.5rem] h-full overflow-hidden border border-slate-100 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(99,102,241,0.15)] transition-all duration-500 hover:-translate-y-2 flex flex-col">
+                        
+                        <div className="aspect-[4/3] relative overflow-hidden m-2 rounded-[2rem]">
+                          <img src={thumbImage} alt={exp.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                          <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wide text-primary shadow-sm">
+                            <T>{exp.categories?.name || "Sin Categoría"}</T>
                           </div>
-                          <span className="flex items-center gap-1 text-sm text-primary font-medium group-hover:translate-x-1 transition-transform">
-                            <T>Ver detalles</T> <ArrowRight className="w-4 h-4" />
-                          </span>
                         </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                );
-              })}
-            </div>
+                        
+                        <div className="p-8 flex-1 flex flex-col">
+                          <h3 className="text-2xl font-black tracking-tight text-slate-900 mb-3 group-hover:text-primary transition-colors"><T>{exp.title}</T></h3>
+                          <div className="flex items-center gap-2 text-sm font-bold text-slate-400 mb-6">
+                            <MapPin className="w-4 h-4 text-cyan-500" /> <T>{exp.location}</T>
+                          </div>
+                          
+                          <div className="flex items-end justify-between mt-auto pt-6 border-t border-slate-100">
+                            <div>
+                              <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1"><T>Desde</T></p>
+                              <p className="text-2xl font-black text-slate-900">
+                                {formatPrice(exp.displayPrice)}
+                              </p>
+                            </div>
+                            <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-primary transition-colors">
+                              <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </section>
       </main>
@@ -190,8 +208,8 @@ function ExperienciasContent() {
 export default function ExperienciasPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-orange-600" />
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="w-12 h-12 animate-spin text-primary" />
       </div>
     }>
       <ExperienciasContent />

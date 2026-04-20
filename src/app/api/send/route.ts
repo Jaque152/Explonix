@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
     const primaryColor = '#c2410c';
 
-    const subjectClient = '[Solicitud Recibida] Gracias por tu mensaje - Zenith México';
+    const subjectClient = '[Solicitud Recibida] Gracias por tu mensaje - Explonix';
     const greeting = `¡Hola ${customerName}!`;
     const bodyText =
       'Recibimos tu mensaje exitosamente. Un asesor experto de nuestro equipo se pondrá en contacto contigo en breve para ayudarte con tu solicitud.';
@@ -27,12 +27,12 @@ export async function POST(req: Request) {
     const exploreText =
       'Mientras tanto, te invitamos a seguir explorando nuestras aventuras.';
     const ctaText = 'Ver experiencias';
-    const ctaLink = 'https://zenithmex.com/es/#experiencias';
+    const ctaLink = 'https://explonix.com/es/#experiencias';
 
     const htmlClient = `
       <div style="font-family: sans-serif; color: #333; max-width: 600px; margin: auto;">
         <div style="background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%); padding: 20px; text-align: center; border-radius: 10px 10px 0 0; color: #fff; font-weight: bold;">
-          Zenith México
+          Explonix
         </div>
         <div style="padding: 30px; border: 1px solid #eee; border-top: 0; border-radius: 0 0 10px 10px;">
           <h2 style="margin:0 0 15px; color: #1c1917;">${greeting}</h2>
@@ -68,7 +68,7 @@ export async function POST(req: Request) {
     `;
 
     const { data, error } = await resend.emails.send({
-      from: 'Zenith México <cotizaciones@zenithmex.com>',
+      from: 'Explonix <cotizaciones@Explonix.com>',
       to: [email],
       subject: subjectClient,
       html: htmlClient,
@@ -100,8 +100,8 @@ export async function POST(req: Request) {
     `;
 
     const internalMail = await resend.emails.send({
-      from: 'Sistema Zenith México <cotizaciones@zenithmex.com>',
-      to: ['contacto@zenithmex.com'],
+      from: 'Sistema Explonix <cotizaciones@explonix.com>',
+      to: ['contacto@explonix.com'],
       subject: subjectInternal,
       html: htmlInternal,
     });

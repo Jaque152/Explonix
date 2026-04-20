@@ -1,94 +1,87 @@
 "use client";
 import { useLocale } from 'next-intl';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Check, Sparkles } from "lucide-react";
+import { Check, PlaneTakeoff } from "lucide-react";
 import Link from "next/link";
 import { T } from "@/components/T";
 
 export function Pricing() {
   const locale = useLocale();
   return (
-    <section id="precios" className="py-24 lg:py-32 bg-secondary/30 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-
+    <section id="precios" className="py-24 lg:py-32 bg-background relative overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <Badge variant="outline" className="mb-4 rounded-full px-4 py-1 border-primary/30 text-primary">
-            <T>Viajes a Tu Medida</T>
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-serif font-semibold mb-6">
-            <T>Diseñamos tu</T>{" "}
-            <span className="text-gradient"><T>aventura perfecta</T></span>
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            <T>Cada viajero es único. Por eso creamos experiencias 100% personalizadas
-            que se adaptan a tus gustos, tiempos y presupuesto.</T>
-          </p>
-        </div>
+        
+        {/* Layout Asimétrico 60/40 */}
+        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-8">
+          
+          {/* Lado Izquierdo: Tipografía Masiva */}
+          <div className="w-full lg:w-7/12 space-y-8">
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-primary/20 bg-primary/5">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="text-xs font-bold uppercase tracking-widest text-primary">
+                <T>Viajes a Tu Medida</T>
+              </span>
+            </div>
+            
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9]">
+              <T>Tu viaje.</T><br/>
+              <T>Tus reglas.</T><br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">
+                <T>Un solo plan.</T>
+              </span>
+            </h2>
+            
+            <p className="text-xl text-muted-foreground font-medium max-w-lg leading-relaxed">
+              <T>Cada viajero es único. Por eso eliminamos los paquetes rígidos. Creamos experiencias 100% personalizadas que se adaptan a tus gustos, tiempos y presupuesto.</T>
+            </p>
+          </div>
 
-        {/* Custom Service Card - Centered */}
-        <div className="max-w-lg mx-auto">
-          <Card className="relative overflow-hidden border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-accent/5 shadow-xl hover:shadow-2xl transition-all duration-300">
-            {/* Decorative elements */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-accent/10 rounded-full blur-2xl" />
-
-            <CardHeader className="pb-4 relative">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-6">
-                <Sparkles className="w-8 h-8 text-white" />
+          {/* Lado Derecho: The "Boarding Pass" Ticket */}
+          <div className="w-full lg:w-5/12">
+            <div className="bg-slate-900 rounded-[2rem] flex flex-col relative shadow-2xl shadow-primary/20 overflow-hidden transform lg:-rotate-2 hover:rotate-0 transition-transform duration-500">
+              
+              {/* Ticket Top */}
+              <div className="p-8 md:p-10 bg-gradient-to-br from-slate-900 to-slate-800 relative">
+                <div className="absolute top-0 right-0 p-8 opacity-10">
+                  <PlaneTakeoff className="w-32 h-32 text-cyan-400" />
+                </div>
+                <h3 className="text-3xl font-black text-white mb-2"><T>Pase Explonix</T></h3>
+                <p className="text-cyan-400 font-bold uppercase tracking-wider text-sm"><T>Servicio Personalizado</T></p>
               </div>
-              <h3 className="text-2xl font-serif font-semibold"><T>Servicio Personalizado</T></h3>
-              <p className="text-muted-foreground mt-2"><T>Diseñamos tu viaje a la medida de tus sueños</T></p>
-            </CardHeader>
 
-            <CardContent className="relative">
-              <p className="text-muted-foreground mb-6">
-                <T>¿Tienes un destino en mente? ¿Un presupuesto específico? ¿Necesidades especiales?
-                Nuestro equipo de expertos creará un itinerario único solo para ti.</T>
-              </p>
+              {/* Perforation Line */}
+              <div className="flex items-center px-4 -my-4 relative z-10">
+                <div className="w-8 h-8 rounded-full bg-background -ml-8" />
+                <div className="flex-1 border-t-2 border-dashed border-white/20" />
+                <div className="w-8 h-8 rounded-full bg-background -mr-8" />
+              </div>
 
-              <div className="p-5 bg-background/60 backdrop-blur-sm rounded-xl mb-6 border border-border/50">
-                <h4 className="font-medium mb-4 text-foreground"><T>¿Qué incluye?</T></h4>
-                <ul className="space-y-3">
-                  <li className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <T>Itinerario 100% personalizado</T>
-                  </li>
-                  <li className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <T>Precio ajustado a tu presupuesto</T>
-                  </li>
-                  <li className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <T>Asesoría de expertos en destinos</T>
-                  </li>
-                  <li className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <T>Atención dedicada</T>
-                  </li>
-                  <li className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
+              {/* Ticket Bottom */}
+              <div className="p-8 md:p-10 bg-slate-900">
+                <ul className="space-y-5 mb-10">
+                  {[
+                    <T>Itinerario 100% personalizado</T>,
+                    <T>Precio ajustado a tu presupuesto</T>,
+                    <T>Asesoría de expertos en destinos</T>,
                     <T>Sin cargos ocultos - IVA incluido</T>
-                  </li>
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-4 text-sm font-bold text-slate-300">
+                      <Check className="w-5 h-5 text-cyan-400 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
                 </ul>
+
+                <Button asChild className="w-full rounded-xl h-16 text-lg font-black bg-cyan-400 text-slate-900 hover:bg-white transition-colors shadow-lg shadow-cyan-400/20">
+                  <Link href={`/${locale}/cotizar`}>
+                    <T>Comenzar a Cotizar</T>
+                  </Link>
+                </Button>
               </div>
 
-              <Button asChild className="w-full rounded-full h-12 text-base bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity">
-                <Link href={`/${locale}/cotizar`}>
-                  <T>Cotizar Ahora</T>
-                </Link>
-              </Button>
+            </div>
+          </div>
 
-              <p className="text-center text-xs text-muted-foreground mt-4">
-                <T>Respuesta en menos de 24 horas</T>
-              </p>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </section>
