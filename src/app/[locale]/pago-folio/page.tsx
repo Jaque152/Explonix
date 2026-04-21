@@ -62,7 +62,7 @@ export default function PagoFolioPage() {
     };
 
     addToCart(customExperienceItem);
-    sessionStorage.setItem("zenith_temp_contact", JSON.stringify({ nombre, email, folio })); // Mantenemos la llave si Checkout la usa así
+    sessionStorage.setItem("explonix_temp_contact", JSON.stringify({ nombre, email, folio })); 
     router.push(`/${locale}/checkout`);
   };
 
