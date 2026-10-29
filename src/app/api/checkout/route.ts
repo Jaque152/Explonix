@@ -9,7 +9,7 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 // --- CREDENCIALES OCTANO ---
 const OCTANO_EMAIL = process.env.OCTANO_EMAIL;
-const OCTANO_PASSWORD = process.env.OCTANO_PASSWORD!;
+const OCTANO_PASSWORD = process.env.OCTANO_PASSWORD;
 const OCTANO_BASE_URL = 'https://pagos.octanopayments.com/api/v1';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
