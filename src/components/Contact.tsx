@@ -48,11 +48,16 @@ export function Contact() {
           </div>
           
           <div className="flex flex-col gap-4">
+            
             <a href="mailto:contacto@explonix.com" className="flex items-center gap-3 text-white hover:text-cyan-400 font-bold transition-colors">
               <Mail className="w-5 h-5" /> contacto@explonix.com
             </a>
-            <a href="tel:+525555555555" className="flex items-center gap-3 text-white hover:text-cyan-400 font-bold transition-colors">
-              <Phone className="w-5 h-5" /> +52 55 5555 5555
+            <a href="tel:+5215555237379" className="flex items-center gap-3 text-white hover:text-cyan-400 font-bold transition-colors">
+              <Phone className="w-5 h-5" /> +52 1 55 5523 7379
+            </a>
+            <a href="https://maps.google.com/?q=Heriberto+Frias+903,+Col+del+Valle+Centro,+Benito+Juarez,+03100+Ciudad+de+Mexico" target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 text-white hover:text-cyan-400 font-bold transition-colors text-left">
+              <MapPin className="w-5 h-5 shrink-0 mt-0.5" /> 
+              <span>HERIBERTO FRÍAS 903, COL DEL VALLE CENTRO, BENITO JUÁREZ, 03100 CIUDAD DE MÉXICO, CDMX</span>
             </a>
           </div>
         </div>
