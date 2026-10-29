@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, Loader2, ArrowRight } from "lucide-react";
+import { Mail, Phone, Loader2, ArrowRight, MapPin} from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 export function Contact() {
