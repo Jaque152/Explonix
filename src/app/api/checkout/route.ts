@@ -42,6 +42,11 @@ export async function POST(req: Request) {
 
     const tempReferenceId = `REF-${Date.now()}`;
 
+    // Validación estricta para TypeScript (Soluciona el error de "string | undefined")
+    if (!OCTANO_EMAIL || !OCTANO_PASSWORD) {
+      throw new Error("Credenciales de Octano no configuradas en las variables de entorno.");
+    }
+
     // 1. SIGNIN EN OCTANO (Usa application/x-www-form-urlencoded)
     const signinData = await safeOctanoFetch(`${OCTANO_BASE_URL}/signin`, {
       method: 'POST',
@@ -129,7 +134,7 @@ export async function POST(req: Request) {
       throw new Error(`Pago declinado: ${saleData.message || saleData.responseCode || 'Tarjeta rechazada por el banco'}`);
     }
 
-    // 5. GUARDAR EN SUPABASE
+    // 5. GUARDAR EN SUPABASE (Explonix)
     const { data: customer, error: custError } = await supabase
       .from('customers_explonix')
       .upsert({ 
@@ -189,7 +194,7 @@ export async function POST(req: Request) {
       }   
     }
    
-    // 6. CORREOS ELECTRÓNICOS 
+    // 6. CORREOS ELECTRÓNICOS (Explonix)
     const primaryColor = '#06B6D4'; 
 
     const isEnglish = locale === 'en';
