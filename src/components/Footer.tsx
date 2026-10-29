@@ -109,7 +109,7 @@ export function Footer() {
           <div className="flex gap-8 text-xs font-black text-slate-400 uppercase tracking-widest">
             <Link href={`/${locale}/aviso-de-privacidad`} className="hover:text-primary transition-colors"><T>Privacidad</T></Link>
             <Link href={`/${locale}/terminos-y-condiciones`} className="hover:text-primary transition-colors"><T>Términos</T></Link>
-            <Link href={`/${locale}/politica-de-devoluciones`} className="hover:text-primary transition-colors"><T>Devoluciones</T></Link>
+            <Link href={`/${locale}/politica-de-cancelacion`} className="hover:text-primary transition-colors"><T>Devoluciones</T></Link>
           </div>
         </div>
 
