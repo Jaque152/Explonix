@@ -75,7 +75,7 @@ export function Footer() {
               <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center">
                 <MapPin className="w-4 h-4 text-slate-400" />
               </div>
-              <p className="text-sm font-bold text-slate-600">Ciudad de México, MX</p>
+              <p className="text-sm font-bold text-slate-600">HERIBERTO FRÍAS 903, COL DEL VALLE CENTRO, BENITO JUÁREZ, 03100 CIUDAD DE MÉXICO, CDMX</p>
             </div>
           </div>
 
